@@ -78,6 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\GAME_BUILD</OutDir>
+    <IntDir>..\GAME_BUILD\Debug</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -147,7 +149,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FIRST_APP.cpp" />
     <ClCompile Include="GAME_ENGINE.cpp" />
+    <ClCompile Include="lve_pipeline.cpp" />
+    <ClCompile Include="lve_window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\frag_shader.frag">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="shaders\vert_shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FIRST_APP.hpp" />
+    <ClInclude Include="lve_pipeline.h" />
+    <ClInclude Include="lve_window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
