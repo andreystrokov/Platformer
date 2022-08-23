@@ -17,13 +17,7 @@
     <ClCompile Include="GAME_ENGINE.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="lve_window.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="FIRST_APP.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="lve_pipeline.cpp">
+    <ClCompile Include="GAME_RENDERER.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -36,13 +30,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lve_window.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="FIRST_APP.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="lve_pipeline.h">
+    <ClInclude Include="GAME_RENDERER.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

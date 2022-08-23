@@ -149,10 +149,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FIRST_APP.cpp" />
     <ClCompile Include="GAME_ENGINE.cpp" />
-    <ClCompile Include="lve_pipeline.cpp" />
-    <ClCompile Include="lve_window.cpp" />
+    <ClCompile Include="GAME_RENDERER.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\frag_shader.frag">
@@ -162,9 +160,7 @@
     <None Include="shaders\vert_shader.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FIRST_APP.hpp" />
-    <ClInclude Include="lve_pipeline.h" />
-    <ClInclude Include="lve_window.h" />
+    <ClInclude Include="GAME_RENDERER.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,18 +1,9 @@
 ﻿#include <iostream>
-#include "FIRST_APP.hpp"
 #include <cstdlib>
 #include <stdexcept>
-
+#include "GAME_RENDERER.h"
 int main() {
-    lve::FirstApp app{};
-
-    try {
-        app.run();
-    }
-    catch (const std::exception& e)
-    {
-        std::cout << e.what() << std::endl;
-        return EXIT_FAILURE;
-    }
+    GAME_RENDERER::GAME_RENDERER rnd(1000, 800, "PLATFORMER");
+    rnd.run();
     return EXIT_SUCCESS;
 }
