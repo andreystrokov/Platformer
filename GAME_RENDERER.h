@@ -61,7 +61,11 @@ namespace GAME_RENDERER
 		{{-1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}},
 	{{1.0f, -1.0f}, {0.0f, 1.0f, 0.0f}},
 	{{1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
-	{{0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}}
+	{{-1.0f, 1.0f}, {1.0f, 1.0f, 1.0f}}
+	};
+	const std::vector<uint16_t> indices =
+	{
+		0,1,2,2,3,0
 	};
 
 	struct QueueFamilyIndices { // индексы семейств очередей
@@ -111,7 +115,10 @@ namespace GAME_RENDERER
 			void createRenderPass();
 			void createFrameBuffers();
 			void createCommandPool();
+
 			void createVertexBuffer();
+			void createIndexBuffer();
+			
 			uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 			void createCommandBuffers();
 			void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
@@ -182,8 +189,14 @@ namespace GAME_RENDERER
 			VkCommandPool commandPool;
 			std::vector<VkCommandBuffer> commandBuffers;
 			const int MAX_FRAMES_IN_FLIGHT = 2;
+
+		// Буфер вершин
 		VkBuffer vertexBuffer;
 		VkDeviceMemory vertexBufferMemory;
+		// Индексный буфер
+		VkBuffer indexBuffer;
+		VkDeviceMemory indexBufferMemory;
+
 
 		std::vector<VkSemaphore> imageAvailableSemaphores;
 		std::vector<VkSemaphore> renderFinishedSemaphores;
