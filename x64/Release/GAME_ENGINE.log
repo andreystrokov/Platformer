@@ -1,0 +1,4 @@
+﻿  GAME_ENGINE.cpp
+F:\Projects\Vulkan\GAME_ENGINE\GAME_RENDERER.h(3,10): fatal  error C1083: Не удается открыть файл включение: GLFW/glfw3.h: No such file or directory,
+  GAME_RENDERER.cpp
+F:\Projects\Vulkan\GAME_ENGINE\GAME_RENDERER.h(3,10): fatal  error C1083: Не удается открыть файл включение: GLFW/glfw3.h: No such file or directory,

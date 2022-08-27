@@ -1,0 +1,2 @@
+glslc F:\Projects\Vulkan\GAME_ENGINE\shaders\vert_shader.vert -o F:\Projects\Vulkan\GAME_ENGINE\shaders\vert_shader.spv
+glslc F:\Projects\Vulkan\GAME_ENGINE\shaders\frag_shader.frag -o F:\Projects\Vulkan\GAME_ENGINE\shaders\frag_shader.spv
