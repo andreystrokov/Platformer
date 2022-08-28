@@ -1,4 +1,12 @@
 #pragma once
+
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
+
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 #include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -15,9 +23,6 @@
 #define STD_OUTPUT std::cout
 #define STD_ENDL std::endl
 
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 
 namespace GAME_RENDERER
@@ -51,17 +56,18 @@ namespace GAME_RENDERER
 	};
 
 	struct UniformBufferObject {
-		glm::mat4 model;
-		glm::mat4 view;
-		glm::mat4 proj;
+		alignas(16) glm::mat4 model;
+		alignas(16) glm::mat4 view;
+		alignas(16) glm::mat4 proj;
+		alignas(16) glm::mat4 scale;
 	};
 	
 
 	const std::vector<Vertex> vertices = {
-		{{-1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}},
-	{{1.0f, -1.0f}, {0.0f, 1.0f, 0.0f}},
-	{{1.0f, 1.0f}, {0.0f, 0.0f, 1.0f}},
-	{{-1.0f, 1.0f}, {1.0f, 1.0f, 1.0f}}
+		 {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+	{{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+	{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+	{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
 	};
 	const std::vector<uint16_t> indices =
 	{
@@ -118,7 +124,12 @@ namespace GAME_RENDERER
 
 			void createVertexBuffer();
 			void createIndexBuffer();
-			
+			void createDescriptorSetLayout();
+			void createUniformBuffers();
+			void updateUniformBuffer(uint32_t currentImage);
+			void createDescriptorPool();
+			void createDescriptorSets();
+
 			uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 			void createCommandBuffers();
 			void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
@@ -129,9 +140,8 @@ namespace GAME_RENDERER
 			void cleanupSwapChain();
 			void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 			void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-			void createDescriptorSetLayout();
-			void createUniformBuffers();
-			void updateUniformBuffer(uint32_t currentImage);
+
+
 
 
 			static std::vector<char> readFile(const std::string& filename);
@@ -180,6 +190,8 @@ namespace GAME_RENDERER
 		VkDescriptorSetLayout descriptorSetLayout;
 		std::vector<VkBuffer> uniformBuffers;
 		std::vector<VkDeviceMemory> uniformBuffersMemory;
+		VkDescriptorPool descriptorPool;
+		std::vector<VkDescriptorSet> descriptorSets;
 
 
 		VkPipelineLayout pipelineLayout;
