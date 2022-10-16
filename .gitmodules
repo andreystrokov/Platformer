@@ -1,0 +1,3 @@
+[submodule "stb/stb"]
+	path = stb/stb
+	url = ../../nothings/stb.git
