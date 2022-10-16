@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
@@ -20,9 +22,10 @@
 #include <array>
 #include <bitset>
 
+
+
 #define STD_OUTPUT std::cout
 #define STD_ENDL std::endl
-
 
 
 namespace GAME_RENDERER
@@ -31,6 +34,7 @@ namespace GAME_RENDERER
 	struct Vertex {
 		glm::vec2 pos;
 		glm::vec3 color;
+		glm::vec2 texCoord;
 
 		static VkVertexInputBindingDescription getBindingDescription() {
 			VkVertexInputBindingDescription bindingDescription{};
@@ -39,8 +43,8 @@ namespace GAME_RENDERER
 			bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
 			return bindingDescription;
 		}
-		static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
-			std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
+		static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions() {
+			std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions{};
 			// привязка вершин
 			attributeDescriptions[0].binding = 0;
 			attributeDescriptions[0].location = 0;
@@ -51,6 +55,11 @@ namespace GAME_RENDERER
 			attributeDescriptions[1].location = 1;
 			attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
 			attributeDescriptions[1].offset = offsetof(Vertex, color);
+			// привязка текстуры
+			attributeDescriptions[2].binding = 0;
+			attributeDescriptions[2].location = 2;
+			attributeDescriptions[2].format = VK_FORMAT_R32G32_SFLOAT;
+			attributeDescriptions[2].offset = offsetof(Vertex, texCoord);
 			return attributeDescriptions;
 		}
 	};
@@ -60,18 +69,30 @@ namespace GAME_RENDERER
 		alignas(16) glm::mat4 view;
 		alignas(16) glm::mat4 proj;
 		alignas(16) glm::mat4 scale;
+		alignas(16) glm::mat4 translate;
+		int xTexture;
 	};
 	
 
 	const std::vector<Vertex> vertices = {
-		 {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-	{{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-	{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-	{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+		{{-1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}}, // 0
+	{{1.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}}, // 1
+	{{1.0f, 0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}}, // 2
+	{{-1.0f, 0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}, // 3
+
+
+
+
+	{{3.0f, 0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}, // 4
+	{{3.0f, -1.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}}, // 5
+
+
 	};
 	const std::vector<uint16_t> indices =
 	{
-		0,1,2,2,3,0
+		0,1,2,2,3,0, // FIRST POLYGON
+		2,1,4,4,1,5
+
 	};
 
 	struct QueueFamilyIndices { // индексы семейств очередей
@@ -142,8 +163,16 @@ namespace GAME_RENDERER
 			void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
 
+			void createTextureImage();
+			void createImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
+			void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+			void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
+			void createTextureImageView();
+			VkImageView createImageView(VkImage image, VkFormat format);
+			void createTextureSampler();
 
-
+			VkCommandBuffer beginSingleTimeCommands();
+			void endSingleTimeCommands(VkCommandBuffer commandBuffer);
 			static std::vector<char> readFile(const std::string& filename);
 
 		void mainLoop();
@@ -215,6 +244,11 @@ namespace GAME_RENDERER
 		std::vector<VkFence> inFlightFences;
 		std::vector<VkFence> imagesInFlight;
 		size_t currentFrame = 0;
+
+		VkImage textureImage;
+		VkDeviceMemory textureImageMemory;
+		VkImageView textureImageView;
+		VkSampler textureSampler;
 	};
 
 
